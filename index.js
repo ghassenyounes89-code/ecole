@@ -6,9 +6,13 @@ const jwt = require('jsonwebtoken');
 
 const app = express();
 
-// Middleware
+// ==================== تعديل CORS ليسمح بـ Netlify ====================
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000'],
+  origin: [
+    'http://localhost:5173', 
+    'http://localhost:3000',
+    'https://ecolesmart.netlify.app'  // تم إضافة رابط Netlify
+  ],
   credentials: true
 }));
 app.use(express.json());
@@ -296,9 +300,9 @@ app.get('/api/dashboard/stats', verifyToken, async (req, res) => {
 });
 
 // ==================== DÉMARRAGE ====================
-const PORT = 5000;
+const PORT = process.env.PORT || 5000; // تعديل مهم لـ Render
 app.listen(PORT, () => {
-  console.log(`🚀 Serveur démarré sur http://localhost:${PORT}`);
+  console.log(`🚀 Serveur démarré sur le port ${PORT}`);
   console.log(`📝 Routes disponibles:`);
   console.log(`   - GET  /`);
   console.log(`   - POST /api/auth/login`);
